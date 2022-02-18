@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">VideoCallingApp</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">1267482103721252</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb1267482103721252</string>
+    <string name="web_client_id">281853044897-16gc8fk1q6gn5jfjv9b7js9fst206okg.apps.googleusercontent.com</string>
+    <string name="token_prefix">token_prefix</string>
+    <string name="channel_name">channel</string>
+    <string name="channel_description">this is notification channel</string>
+</resources>
