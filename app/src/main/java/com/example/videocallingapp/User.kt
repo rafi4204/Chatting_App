@@ -2,7 +2,6 @@ package com.example.videocallingapp
 
 import java.io.Serializable
 
-class User : Serializable {
-    var id = ""
-    var name = ""
+data class User(val id: String, val name: String, val email: String) : Serializable {
+
 }
