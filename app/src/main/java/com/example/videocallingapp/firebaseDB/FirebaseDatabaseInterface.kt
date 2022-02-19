@@ -29,7 +29,7 @@
  */
 package com.example.videocallingapp.firebaseDB
 
-import com.example.videocallingapp.User
+import com.example.videocallingapp.model.User
 
 
 interface FirebaseDatabaseInterface {

@@ -7,9 +7,9 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.videocallingapp.MainActivity
-import com.example.videocallingapp.MainActivity.Companion.CHANNEL_ID
-import com.example.videocallingapp.MainActivity.Companion.notificationId
+import com.example.videocallingapp.ui.MainActivity
+import com.example.videocallingapp.ui.MainActivity.Companion.CHANNEL_ID
+import com.example.videocallingapp.ui.MainActivity.Companion.notificationId
 import com.example.videocallingapp.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage

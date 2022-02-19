@@ -1,9 +1,10 @@
-package com.example.videocallingapp
+package com.example.videocallingapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.Sampler
 import android.util.Log
+import com.example.videocallingapp.R
+import com.example.videocallingapp.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

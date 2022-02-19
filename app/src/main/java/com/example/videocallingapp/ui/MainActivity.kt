@@ -1,4 +1,4 @@
-package com.example.videocallingapp
+package com.example.videocallingapp.ui
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -6,36 +6,24 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.videocallingapp.R
 import com.example.videocallingapp.databinding.ActivityMainBinding
 import com.example.videocallingapp.model.Response
-import com.example.videocallingapp.viewmodel.MainViewModel
+import com.example.videocallingapp.ui.viewmodel.MainViewModel
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 
 import com.google.firebase.messaging.FirebaseMessaging
@@ -100,13 +88,13 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 vm.isLoggedIn.collect {
                     when (it) {
-                        Response.Success -> Toast.makeText(
+                        is Response.Success -> Toast.makeText(
                             this@MainActivity,
                             "Success",
                             Toast.LENGTH_LONG
                         ).show()
-                        Response.Failed ->
-                            Toast.makeText(this@MainActivity, "failed", Toast.LENGTH_LONG).show()
+                       is Response.Failed ->
+                            Toast.makeText(this@MainActivity, it.errorMsg, Toast.LENGTH_LONG).show()
 
                     }
                 }

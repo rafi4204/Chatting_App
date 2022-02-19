@@ -1,15 +1,17 @@
-package com.example.videocallingapp.viewmodel
+package com.example.videocallingapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.videocallingapp.firebaseAuth.FirebaseAuthManager
 import com.example.videocallingapp.model.Response
+import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val authManager: FirebaseAuthManager
+    private val authManager: FirebaseAuthManager,
+    val firebaseDatabase: FirebaseDatabase
 ) : ViewModel() {
     var isLoggedIn = MutableStateFlow<Response>(Response.Empty)
     fun login(email: String, password: String) {
@@ -17,7 +19,7 @@ class MainViewModel @Inject constructor(
             if (it) {
                 isLoggedIn.value = Response.Success
             } else {
-                isLoggedIn.value = Response.Failed
+                isLoggedIn.value = Response.Failed("Something went wrong")
             }
         }
     }

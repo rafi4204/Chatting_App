@@ -1,7 +1,7 @@
 
 package com.example.videocallingapp.firebaseDB
 
-import com.example.videocallingapp.User
+import com.example.videocallingapp.model.User
 import com.google.firebase.database.*
 
 import javax.inject.Inject
