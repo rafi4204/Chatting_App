@@ -36,6 +36,7 @@ class RegisterActivity : AppCompatActivity() {
                 viewModel.isRegistered.collect {
                   when(it){
                       is Response.Success->{
+                          Toast.makeText(this@RegisterActivity,"Success",Toast.LENGTH_SHORT).show()
                           startActivity(Intent(this@RegisterActivity,DashBoardActivity::class.java))
                       }
                       is Response.Failed->{

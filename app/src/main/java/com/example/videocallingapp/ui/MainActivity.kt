@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         const val notificationId = 2
     }
 
-    val vm: MainViewModel by viewModels()
+    val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private val messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -48,8 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
             val descriptionText = getString(R.string.channel_description)
@@ -79,21 +78,27 @@ class MainActivity : AppCompatActivity() {
 
     private fun listener() {
         binding.signInButton.setOnClickListener {
-            vm.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+            viewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+        }
+        binding.btnRegister.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                vm.isLoggedIn.collect {
+                viewModel.isLoggedIn.collect {
                     when (it) {
-                        is Response.Success -> Toast.makeText(
-                            this@MainActivity,
-                            "Success",
-                            Toast.LENGTH_LONG
-                        ).show()
-                       is Response.Failed ->
+                        is Response.Success -> {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Success",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            startActivity(Intent(this@MainActivity, DashBoardActivity::class.java))
+                        }
+                        is Response.Failed ->
                             Toast.makeText(this@MainActivity, it.errorMsg, Toast.LENGTH_LONG).show()
 
                     }
@@ -104,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun deviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-        if (!task.isSuccessful) {
+            if (!task.isSuccessful) {
                 Log.w("tag", "getInstanceId failed", task.exception)
                 return@OnCompleteListener
             }
@@ -117,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkGooglePlayServices(): Boolean {
         val status = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
-           return if (status != ConnectionResult.SUCCESS) {
+        return if (status != ConnectionResult.SUCCESS) {
             Log.e("tag", "Error")
 
             false

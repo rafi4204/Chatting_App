@@ -29,10 +29,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Log.d("tag", "refresh token : $token")
-        Toast.makeText(
-            baseContext, "refresh token : $token",
-            Toast.LENGTH_LONG
-        ).show()
+
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
