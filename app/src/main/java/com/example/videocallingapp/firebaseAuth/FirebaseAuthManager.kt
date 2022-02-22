@@ -30,9 +30,10 @@ class FirebaseAuthManager @Inject constructor(private val authentication: Fireba
 
     override fun getUserName(): String = authentication.currentUser?.displayName ?: ""
 
-    override fun logOut(onResult: () -> Unit) {
+    override fun logOut(onResult: (String) -> Unit) {
+        val id = getUserId()
         authentication.signOut()
-        onResult()
+        onResult(id)
     }
 
 

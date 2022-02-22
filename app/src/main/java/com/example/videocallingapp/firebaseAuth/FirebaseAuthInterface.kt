@@ -9,5 +9,5 @@ interface FirebaseAuthInterface {
 
     fun getUserName(): String
 
-    fun logOut(onResult: () -> Unit)
+    fun logOut(onResult: (String) -> Unit)
 }

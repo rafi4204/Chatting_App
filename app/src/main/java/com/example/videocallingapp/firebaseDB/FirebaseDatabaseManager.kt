@@ -31,7 +31,7 @@ class FirebaseDatabaseManager @Inject constructor(
             .setValue(user)
     }
 
-    override fun removeUserFromOnline(id: String, name: String, email: String) {
+    override fun removeUserFromOnline(id: String) {
         database
             .reference
             .child(KEY_ONLINE)

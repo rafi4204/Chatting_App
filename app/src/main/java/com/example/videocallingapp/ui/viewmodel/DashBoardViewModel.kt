@@ -20,4 +20,10 @@ class DashBoardViewModel @Inject constructor(
             userList.value = it as ArrayList<User>
         }
     }
+
+    fun logout(){
+        authManager.logOut {
+            firebaseDatabase.removeUserFromOnline(it)
+        }
+    }
 }
