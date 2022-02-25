@@ -38,4 +38,5 @@ interface FirebaseDatabaseInterface {
   fun removeUserFromOnline(id: String)
   fun getProfile(id: String, onResult: (User) -> Unit)
   fun getOnlineUser(onResult: (List<User>) -> Unit)
+  fun createToken(id: String, token: String)
 }

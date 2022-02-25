@@ -13,6 +13,10 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -21,6 +25,8 @@ import com.example.videocallingapp.R
 import com.example.videocallingapp.databinding.ActivityMainBinding
 import com.example.videocallingapp.model.Response
 import com.example.videocallingapp.ui.viewmodel.MainViewModel
+import com.example.videocallingapp.utils.DataStoreManager
+import com.example.videocallingapp.utils.Key.TOKEN
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.OnCompleteListener
@@ -30,6 +36,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -39,6 +46,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var dataStoreManager: DataStoreManager
     private lateinit var binding: ActivityMainBinding
     private val messageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
@@ -76,9 +86,21 @@ class MainActivity : AppCompatActivity() {
         listener()
     }
 
-    private fun listener() {
+
+    fun listener() {
+
         binding.signInButton.setOnClickListener {
-            viewModel.login(binding.etEmail.text.toString(), binding.etPassword.text.toString())
+            lifecycleScope.launch {
+                dataStoreManager.readValue(
+                    stringPreferencesKey(TOKEN)
+                ) {
+                    viewModel.login(
+                        binding.etEmail.text.toString(),
+                        binding.etPassword.text.toString(),
+                        this
+                    )
+                }
+            }
         }
         binding.btnRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -107,6 +129,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun deviceToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -114,6 +137,9 @@ class MainActivity : AppCompatActivity() {
                 return@OnCompleteListener
             }
             val token = task.result
+            lifecycleScope.launch {
+                dataStoreManager.storeValue(stringPreferencesKey(TOKEN), token)
+            }
             val msg = token
             Log.d("tag", msg)
 

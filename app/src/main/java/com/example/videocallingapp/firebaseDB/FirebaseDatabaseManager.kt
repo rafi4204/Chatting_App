@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 private const val KEY_USER = "user"
 private const val KEY_ONLINE = "online"
-private const val KEY_FAVORITE = "favorite"
+private const val KEY_TOKEN = "token"
 
 class FirebaseDatabaseManager @Inject constructor(
     private val database: FirebaseDatabase
@@ -20,6 +20,14 @@ class FirebaseDatabaseManager @Inject constructor(
             .child(KEY_USER)
             .child(id)
             .setValue(user)
+    }
+    override fun createToken(id: String, token: String) {
+
+        database
+            .reference
+            .child(KEY_TOKEN)
+            .child(id)
+            .setValue(token)
     }
 
     override fun addUserToOnline(id: String, name: String, email: String) {
