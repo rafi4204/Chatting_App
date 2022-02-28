@@ -3,14 +3,13 @@ package com.example.videocallingapp.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.videocallingapp.R
 import com.example.videocallingapp.databinding.ActivityDashBoardBinding
-import com.example.videocallingapp.databinding.ActivityMainBinding
 import com.example.videocallingapp.model.User
 import com.example.videocallingapp.ui.adapter.DashBoardAdapter
 import com.example.videocallingapp.ui.viewmodel.DashBoardViewModel
@@ -36,7 +35,7 @@ class DashBoardActivity : AppCompatActivity() {
     private fun listener() {
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
@@ -51,9 +50,15 @@ class DashBoardActivity : AppCompatActivity() {
     }
 
     private fun showOnlineUser(list: ArrayList<User>) {
-        val adapter = DashBoardAdapter(list)
+        val adapter = DashBoardAdapter(list) { user: User -> onClickListener(user) }
         binding.rvOnlineUser.layoutManager = LinearLayoutManager(this)
         binding.rvOnlineUser.adapter = adapter
+    }
+
+    private fun onClickListener(user: User) {
+        lifecycleScope.launch {
+          //  viewModel.sendPushNotification()
+        }
     }
 
 
